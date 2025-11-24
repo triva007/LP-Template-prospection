@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import Button from './ui/Button';
 import { Phone, CheckCircle2, Clock, Calendar, Send, Loader2, AlertCircle } from 'lucide-react';
-import { PHONE_NUMBER, IMG_WORKER_KNEELING, CONTACT_EMAIL } from '../constants';
+// On garde l'import pour l'image et le tel, mais l'email est hardcodé pour la sécurité
+import { PHONE_NUMBER, IMG_WORKER_KNEELING } from '../constants';
 
 const Contact: React.FC = () => {
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  // Email hardcodé pour garantir l'envoi
+  const TARGET_EMAIL = "aaron@triva-media.com";
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -13,7 +15,7 @@ const Contact: React.FC = () => {
     const formData = new FormData(e.currentTarget);
     
     try {
-      const response = await fetch(`https://formsubmit.co/ajax/${CONTACT_EMAIL}`, {
+      const response = await fetch(`https://formsubmit.co/ajax/${TARGET_EMAIL}`, {
         method: "POST",
         body: formData,
         headers: {
@@ -127,15 +129,17 @@ const Contact: React.FC = () => {
                     </div>
                 ) : (
                     <form onSubmit={handleSubmit} className="space-y-6">
-                        <input type="hidden" name="_subject" value="Nouveau contact site web" />
+                        <input type="hidden" name="_subject" value="Nouveau Contact (Toiture Prestige)" />
                         <input type="hidden" name="_captcha" value="false" />
+                        {/* Template Table pour un email joli et clair */}
+                        <input type="hidden" name="_template" value="table" />
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
                                 <label htmlFor="name" className="block text-sm font-bold text-gray-700 mb-2">Nom complet</label>
                                 <input 
                                     type="text" 
-                                    name="name" 
+                                    name="Nom_Complet" 
                                     id="name" 
                                     required 
                                     placeholder="Jean Dupont"
@@ -146,7 +150,7 @@ const Contact: React.FC = () => {
                                 <label htmlFor="phone" className="block text-sm font-bold text-gray-700 mb-2">Téléphone</label>
                                 <input 
                                     type="tel" 
-                                    name="phone" 
+                                    name="Téléphone" 
                                     id="phone" 
                                     required 
                                     placeholder="06 12 34 56 78"
@@ -159,7 +163,7 @@ const Contact: React.FC = () => {
                             <label htmlFor="email" className="block text-sm font-bold text-gray-700 mb-2">Email (Optionnel)</label>
                             <input 
                                 type="email" 
-                                name="email" 
+                                name="Email" 
                                 id="email" 
                                 placeholder="jean.dupont@email.com"
                                 className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-brand-500 outline-none transition-all"
@@ -169,7 +173,7 @@ const Contact: React.FC = () => {
                         <div>
                             <label htmlFor="project" className="block text-sm font-bold text-gray-700 mb-2">Type de projet</label>
                             <select 
-                                name="project" 
+                                name="Type_de_Projet" 
                                 id="project" 
                                 className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-brand-500 outline-none transition-all"
                             >
@@ -185,7 +189,7 @@ const Contact: React.FC = () => {
                         <div>
                             <label htmlFor="message" className="block text-sm font-bold text-gray-700 mb-2">Détails du projet</label>
                             <textarea 
-                                name="message" 
+                                name="Message" 
                                 id="message" 
                                 rows={4} 
                                 placeholder="Bonjour, je souhaiterais obtenir un devis pour..."
