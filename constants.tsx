@@ -4,6 +4,8 @@ import { NavItem, ServiceItem, TestimonialItem, StatItem } from './types';
 
 export const APP_NAME = "Toiture Prestige";
 export const PHONE_NUMBER = "01 23 45 67 89";
+// Mettez à jour l'extension (.com, .fr) si nécessaire
+export const CONTACT_EMAIL = "aaron@triva-media.com";
 
 export const NAV_LINKS: NavItem[] = [
   { label: "Accueil", href: "#home" },

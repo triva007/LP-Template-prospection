@@ -1,7 +1,7 @@
 import React from 'react';
 import Button from './ui/Button';
-import { GUARANTEES, HERO_IMAGE } from '../constants';
-import { Star, MapPin, ChevronRight } from 'lucide-react';
+import { GUARANTEES, HERO_IMAGE, CONTACT_EMAIL } from '../constants';
+import { Star, MapPin, ChevronRight, Send } from 'lucide-react';
 
 const Hero: React.FC = () => {
   return (
@@ -81,15 +81,19 @@ const Hero: React.FC = () => {
                         <p className="text-gray-500 text-sm mt-1">Gratuit et sans engagement.</p>
                     </div>
                     
-                    <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
+                    <form action={`https://formsubmit.co/${CONTACT_EMAIL}`} method="POST" className="space-y-4">
+                        <input type="hidden" name="_subject" value="Estimation Rapide (Hero)" />
+                        <input type="hidden" name="_captcha" value="true" />
+                        <input type="hidden" name="_template" value="table" />
+
                         <div>
                             <label className="block text-xs font-bold text-gray-700 mb-1 uppercase tracking-wide">Je souhaite</label>
                             <div className="relative">
-                                <select className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-700 focus:ring-2 focus:ring-brand-500 outline-none transition-all appearance-none cursor-pointer font-medium text-sm">
-                                    <option>Rénover ma toiture</option>
-                                    <option>Réparer une fuite</option>
-                                    <option>Nettoyer ma toiture</option>
-                                    <option>Isoler mes combles</option>
+                                <select name="Projet" className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-700 focus:ring-2 focus:ring-brand-500 outline-none transition-all appearance-none cursor-pointer font-medium text-sm">
+                                    <option value="Rénovation">Rénover ma toiture</option>
+                                    <option value="Fuite">Réparer une fuite</option>
+                                    <option value="Nettoyage">Nettoyer ma toiture</option>
+                                    <option value="Isolation">Isoler mes combles</option>
                                 </select>
                                 <div className="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none text-gray-500">
                                     <ChevronRight className="w-4 h-4 rotate-90" />
@@ -100,7 +104,7 @@ const Hero: React.FC = () => {
                         <div>
                              <label className="block text-xs font-bold text-gray-700 mb-1 uppercase tracking-wide">Code Postal</label>
                              <div className="relative">
-                                <input type="text" placeholder="78000" className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-brand-500 outline-none transition-all text-sm font-medium" />
+                                <input type="text" name="Code_Postal" placeholder="78000" required className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-brand-500 outline-none transition-all text-sm font-medium" />
                                 <MapPin className="absolute left-3 top-3.5 w-4 h-4 text-gray-400" />
                              </div>
                         </div>
@@ -108,17 +112,17 @@ const Hero: React.FC = () => {
                          <div className="grid grid-cols-2 gap-4">
                             <div>
                                 <label className="block text-xs font-bold text-gray-700 mb-1 uppercase tracking-wide">Surface (m²)</label>
-                                <input type="number" placeholder="Ex: 80" className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-brand-500 outline-none transition-all text-sm" />
+                                <input type="number" name="Surface" placeholder="Ex: 80" className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-brand-500 outline-none transition-all text-sm" />
                             </div>
                             <div>
                                 <label className="block text-xs font-bold text-gray-700 mb-1 uppercase tracking-wide">Téléphone</label>
-                                <input type="tel" placeholder="06..." className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-brand-500 outline-none transition-all text-sm" />
+                                <input type="tel" name="Téléphone" required placeholder="06..." className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-brand-500 outline-none transition-all text-sm" />
                             </div>
                          </div>
 
-                         <Button className="w-full mt-2 justify-center shadow-lg shadow-brand-500/20" href="#contact">
+                         <button type="submit" className="w-full mt-2 inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-semibold rounded-md text-white bg-brand-600 hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500 shadow-lg shadow-brand-500/20 transition-all">
                             Voir mon estimation
-                         </Button>
+                         </button>
                          
                          <p className="text-[10px] text-gray-400 text-center mt-3 border-t border-gray-100 pt-3">
                             🔒 Vos coordonnées ne seront jamais revendues.
