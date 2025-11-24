@@ -12,9 +12,6 @@ const Contact: React.FC = () => {
 
     const formData = new FormData(e.currentTarget);
     
-    // Conversion FormData en objet pour JSON (optionnel mais propre)
-    // Ici on envoie directement le FormData à l'endpoint AJAX de FormSubmit
-    
     try {
       const response = await fetch(`https://formsubmit.co/ajax/${CONTACT_EMAIL}`, {
         method: "POST",
@@ -114,4 +111,124 @@ const Contact: React.FC = () => {
                 
                 {status === 'success' ? (
                     <div className="absolute inset-0 bg-white z-20 flex flex-col items-center justify-center p-8 text-center animate-fadeIn">
-                        <div className="w-20 h-20 bg-green-100 rounded-full flex items-
+                        <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mb-6">
+                            <CheckCircle2 className="w-10 h-10 text-green-600" />
+                        </div>
+                        <h4 className="text-2xl font-bold text-dark-900 mb-2">Message envoyé !</h4>
+                        <p className="text-gray-500 mb-8 max-w-sm">
+                            Merci de nous avoir contactés. Notre équipe technique va étudier votre demande et reviendra vers vous sous 24h.
+                        </p>
+                        <button 
+                            onClick={() => setStatus('idle')}
+                            className="text-brand-600 font-bold hover:underline"
+                        >
+                            Envoyer un autre message
+                        </button>
+                    </div>
+                ) : (
+                    <form onSubmit={handleSubmit} className="space-y-6">
+                        <input type="hidden" name="_subject" value="Nouveau contact site web" />
+                        <input type="hidden" name="_captcha" value="false" />
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label htmlFor="name" className="block text-sm font-bold text-gray-700 mb-2">Nom complet</label>
+                                <input 
+                                    type="text" 
+                                    name="name" 
+                                    id="name" 
+                                    required 
+                                    placeholder="Jean Dupont"
+                                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-brand-500 outline-none transition-all"
+                                />
+                            </div>
+                            <div>
+                                <label htmlFor="phone" className="block text-sm font-bold text-gray-700 mb-2">Téléphone</label>
+                                <input 
+                                    type="tel" 
+                                    name="phone" 
+                                    id="phone" 
+                                    required 
+                                    placeholder="06 12 34 56 78"
+                                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-brand-500 outline-none transition-all"
+                                />
+                            </div>
+                        </div>
+
+                        <div>
+                            <label htmlFor="email" className="block text-sm font-bold text-gray-700 mb-2">Email (Optionnel)</label>
+                            <input 
+                                type="email" 
+                                name="email" 
+                                id="email" 
+                                placeholder="jean.dupont@email.com"
+                                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-brand-500 outline-none transition-all"
+                            />
+                        </div>
+
+                        <div>
+                            <label htmlFor="project" className="block text-sm font-bold text-gray-700 mb-2">Type de projet</label>
+                            <select 
+                                name="project" 
+                                id="project" 
+                                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-brand-500 outline-none transition-all"
+                            >
+                                <option value="Rénovation Toiture">Rénovation Toiture</option>
+                                <option value="Fuite / Urgence">Fuite / Urgence</option>
+                                <option value="Isolation Combles">Isolation Combles</option>
+                                <option value="Nettoyage / Démoussage">Nettoyage / Démoussage</option>
+                                <option value="Zinguerie">Zinguerie (Gouttières)</option>
+                                <option value="Autre">Autre</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label htmlFor="message" className="block text-sm font-bold text-gray-700 mb-2">Détails du projet</label>
+                            <textarea 
+                                name="message" 
+                                id="message" 
+                                rows={4} 
+                                placeholder="Bonjour, je souhaiterais obtenir un devis pour..."
+                                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-brand-500 outline-none transition-all resize-none"
+                            ></textarea>
+                        </div>
+
+                        {status === 'error' && (
+                             <div className="bg-red-50 text-red-600 p-4 rounded-lg flex items-center gap-3 text-sm">
+                                <AlertCircle className="w-5 h-5 flex-shrink-0" />
+                                Une erreur est survenue. Vous pouvez nous joindre directement par téléphone.
+                            </div>
+                        )}
+
+                        <button 
+                            type="submit" 
+                            disabled={status === 'loading'}
+                            className="w-full inline-flex items-center justify-center px-8 py-4 border border-transparent text-base font-bold rounded-lg text-white bg-brand-600 hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500 shadow-lg shadow-brand-500/30 transition-all disabled:opacity-70 disabled:cursor-not-allowed"
+                        >
+                            {status === 'loading' ? (
+                                <>
+                                    <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                                    Envoi en cours...
+                                </>
+                            ) : (
+                                <>
+                                    <Send className="w-5 h-5 mr-2" />
+                                    Demander mon devis gratuit
+                                </>
+                            )}
+                        </button>
+                        
+                        <p className="text-center text-xs text-gray-400 mt-4">
+                            En soumettant ce formulaire, vous acceptez que vos informations soient utilisées pour vous recontacter.
+                        </p>
+                    </form>
+                )}
+            </div>
+
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default Contact;
